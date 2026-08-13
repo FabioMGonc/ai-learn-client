@@ -49,7 +49,7 @@
 }
 
 :root {
-  --background: #dfdddd;
+  --background: #dfdddd/90;
   --foreground: #F0F0F0;
   
   --card-foreground: #F0F0F0;

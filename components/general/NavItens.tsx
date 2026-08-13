@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 
 const links = [
     { name: "Home", href: "/" },
-    { name: "Tutores", href: "/tutors" },
+    { name: "Professores", href: "/professores" },
     { name: "Meu Progresso", href: "/my-progress" },
 ];
 const NavItens = () => {
