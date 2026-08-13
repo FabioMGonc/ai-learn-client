@@ -5,20 +5,19 @@ import { Button } from "../ui/button";
 
 const Navbar = () => {
     return (
-        <nav className="absolute top-0 w-full border-b border-gray-100 bg-white/80 backdrop-blur-md">
-            <div>
-                <Link href="/" >
-                    <div>
+        <nav className="absolute top-0 w-full border-b border-gray-100 bg-white backdrop-blur-md">
+            <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 py-6 sm:px-6 lg:px-8">
+                <Link href="/" className="flex shrink-0 items-center gap-1">
+                    <div className="flex shrink-0 items-center justify-center rounded-xl overflow-hidden">
                         <Image className="object-contain" src="/logo.png" loading="eager" alt="Logo IA Learn" width={80} height={80} />
                     </div>
                 </Link>
                 <div className="flex flex-1 items-center justify-center overflow-x-auto px-1 sm:px-4">
-                    <NavItens> 
-                    </NavItens>
+                    <NavItens />
                 </div>
 
                 <div className="flex shrink-0 items-center justify-center gap-2 sm:gap-6">
-                    <Button className="rounded-full px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider bg-blue-600 text-slate-900 hover:bg-blue-400 sm:px-4 sm:py-2 sm:text-xs cursor-pointer"> Entrar </Button>
+                    <Button className="default"> Entrar </Button>
                 </div>
             </div>
 
