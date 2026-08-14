@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Sparkles, BookOpen, ShieldCheck } from "lucide-react";
-import { Button } from "../ui/button"
+import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 
     const stats = [
@@ -48,7 +48,7 @@ const HeroSection = () => {
                 <div className="grid grid-cols-2 gap-4 pt-2">
                     {stats.map(({ icon: Icon, value, label, desc }) => {
                         return (
-                        <div key={label} className="stat-card shadow-lg shadow-primary/20">
+                        <div key={label} className="stat-card shadow-lg shadow-primary/20 hover:scale-105 transition-all duration-500 ease-in-out">
                             <div className="mb-6 mt-6 items-center justify-center rounded-lg">
                             <Icon className="ml-4 text-primary" />
                             <p className="text-lg font-bold text-zinc-800">{value}</p>
