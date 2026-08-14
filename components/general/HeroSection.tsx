@@ -15,7 +15,6 @@ import { Badge } from "../ui/badge";
 
 const HeroSection = () => {
     return (
-        <>
             <section className="grid gap-10 lg:grid-cols-12 lg:items-start">    
                 {/* Lado esquerdo */}
                 <div className="space-y-5 m-3 lg:col-span-7">
@@ -95,7 +94,6 @@ const HeroSection = () => {
                 </div>
                 </div>
             </section>
-        </>
     );
 }
 
