@@ -9,7 +9,7 @@ const TutorsSection = () => {
 
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {
-                    dummyTutors.map((tutor, index) => {
+                    dummyTutors.slice(3).map((tutor, index) => {
                         return (
                             <div key={tutor.id} >
                                 <TutorsCard {...tutor} index = {index} />
