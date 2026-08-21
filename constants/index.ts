@@ -83,3 +83,26 @@ export const dummyTutors: Tutor[] = [
         created_at: "2025-06-01T10:00:00Z",
     },
 ];
+
+export const RECENT_SESSIONS: Tutor[] = [
+    dummyTutors[0],
+    dummyTutors[1],
+    dummyTutors[2],
+];
+
+export const USER_SESSIONS: Tutor[] = [
+];
+
+export const USER_TUTORS: Tutor[] = [
+    dummyTutors[0],
+    dummyTutors[1],
+    dummyTutors[2],
+    dummyTutors[3],
+    dummyTutors[4],
+    dummyTutors[5],
+];
+
+export const FAVORITE_TUTORS: Tutor[] = [
+    dummyTutors[4],
+    dummyTutors[5],
+];

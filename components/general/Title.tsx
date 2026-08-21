@@ -8,7 +8,7 @@ const Title = ({headingStart, headingEnd, subtext, hasAction, linkTo}: TitleProp
             <div className="max-w-2xl">
                 <h2 className="text-2xl font-bold tracking-tight text-zinc-800 sm:text-[1.75rem]">
                     <span className="">{headingStart}</span>
-                    {headingEnd && (<span className="bg-linear-to-r from-[#10A0F0] to-[#0040A0] bg-clip-text text-transparent ml-2">{headingEnd}</span>)};
+                    {headingEnd && (<span className="bg-linear-to-r from-[#10A0F0] to-[#0040A0] bg-clip-text text-transparent ml-2">{headingEnd}</span>)}
                 </h2>
                 {subtext && (<p className="mt-2 text-zinc-600 text-sm max-w-xl leading-relaxed">{subtext}</p>)};
             </div>
