@@ -1,9 +1,15 @@
-import { Inbox } from "lucide-react";
+import { ArrowRight, Clock, Inbox } from "lucide-react";
+import { getSubjectTheme } from "@/lib/utils";
+
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
+import Link from "next/link";
+import { Badge } from "../ui/badge";
 
 
 const TutorList = ({tutors=[]}: TutorsListProps) => {
     const hasTutor = tutors.length > 0;
+    console.log("TUTORES:", tutors);
+console.log("QUANTIDADE:", tutors.length);
     const columns = [
         { label: "Assunto", className: "w-16"},
         { label: "Nome", className: ""},
@@ -23,17 +29,56 @@ const TutorList = ({tutors=[]}: TutorsListProps) => {
                 <div>
                     <Table>
                         <TableHeader>
-                            <TableRow>
+                            <TableRow className="hover:bg-transparent">
                                 {columns.map(({label, className}) => (
-                                    <TableHead key={label} className={`text[11px] font-semibold uppercase tracking-wider text-zinc-700 ${className}`} />
+                                    <TableHead key={label} className={`text-[20px] font-semibold uppercase tracking-wider text-zinc-700 ${className}`} >
+                                        <span>{label}</span>
+                                    </TableHead>
                                 ))}
                             </TableRow>
                         </TableHeader>
+                        <TableBody>
+                            {
+                                tutors.map(({id, subject, name, topic, duration}, index) => {
+                                    const safeSubject = subject || "General";
+                                    const { Icon, accent } = getSubjectTheme(safeSubject);
+                                    return (
+                                        <TableRow key={`${id}-${index}`} className="group/row border-border transition-colors hover:bg-[#a6d8f3]">
+                                            <TableCell className="py-4 ">
+                                                <div className="flex size-9 items-center justify-center rounded-lg transition-transform group-hover/row:scale-105" style={{background: accent}}>
+                                                    <Icon className="size-5 text-white" />
+                                                </div>
+                                            </TableCell>
+                                            <TableCell className="max-w-40 truncate py-4 text-sm font-medium text-zinc-700">
+                                                <Link href={`/tutors/${id}`} className="inline-flex items-center gap-1.5 text-sm transition-colors text-primary/75">
+                                                    <span>{name}</span>
+                                                    <ArrowRight className="size-3.5 -translate-x-1 text-primary/50 opacity-0 transition-all group-hover/row:translate-x-0 group-hover/row:opacity-100" />
+                                                </Link>
+                                            </TableCell>
+                                            <TableCell className="hidden py-4 sm:table-cell">   
+                                                <Badge variant="secondary" className="text-[14px] font-medium">
+                                                    {
+                                                        safeSubject.charAt(0).toUpperCase() + safeSubject.slice(1)
+                                                    }
+                                                </Badge>
+                                            </TableCell>
+                                            <TableCell className="hidden max-w-60 truncate py-4 text-sm text-zinc-700 md:table-cell">
+                                                <span>{topic}</span>
+                                            </TableCell>
+                                            <TableCell className="align-middle text-right">
+                                                <div className="flex items-center justify-end gap-1 text-xs font-medium text-zinc-700">
+                                                    <Clock className="size-3.5" />
+                                                    <span>{duration} minutos</span>
+                                                </div>
+                                            </TableCell>
+                                        </TableRow>
+                                    )
+                                })
+                            }
+                        </TableBody>
                     </Table>
-
                 </div>
-            )
-            }
+            )}
         </div>
     );
 }
