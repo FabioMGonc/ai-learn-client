@@ -1,6 +1,7 @@
 import HeroSection from "../components/general/HeroSection";
 import TutorsSection from "../components/general/TutorsSection";
 import RecentSection from "../components/general/RecentSection";
+import CTA from "@/components/general/CTA";
 
 const Home = () => {
   return (
@@ -8,6 +9,7 @@ const Home = () => {
       <HeroSection />
       <TutorsSection />      
       <RecentSection />
+      <CTA />
     </main>
   );
 }

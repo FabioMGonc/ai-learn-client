@@ -8,8 +8,7 @@ import { Badge } from "../ui/badge";
 
 const TutorList = ({tutors=[]}: TutorsListProps) => {
     const hasTutor = tutors.length > 0;
-    console.log("TUTORES:", tutors);
-console.log("QUANTIDADE:", tutors.length);
+    
     const columns = [
         { label: "Assunto", className: "w-16"},
         { label: "Nome", className: ""},

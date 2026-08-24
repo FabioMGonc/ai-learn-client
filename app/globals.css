@@ -142,7 +142,7 @@
   }
 
   .card {
-    @apply rounded-4xl border border-border bg-card text-card-foreground p-5 sm:p-8;
+    @apply rounded-4xl border border-border bg-card shadow-md text-card-foreground p-5 sm:p-8;
   }
 
   .stat-card {
