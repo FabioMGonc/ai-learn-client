@@ -8,7 +8,24 @@ import TutorsCard from "@/components/general/TutorsCard";
 
 const TutorsPage = async ({searchParams}: PageProps ) => {
     const filters = await searchParams;
-    const tutors = dummyTutors;
+    const tutors = dummyTutors.filter((tutor) => {
+        if (filters.subject && filters.subject !== "Todos Assuntos") {
+            if (tutor.subject !== filters.subject) {
+                return false;
+            }
+        }
+        if (filters.topic) {
+            const query = filters.topic.toLowerCase();
+            const matchName = tutor.name.toLowerCase().includes(query);
+            const matchTopic = tutor.topic.toLowerCase().includes(query);
+
+            if (!matchName && !matchTopic) {
+                return false;
+            }
+        }
+        return true;
+    });
+
     const hasTutors = tutors.length > 0;
 
     return (
@@ -21,7 +38,7 @@ const TutorsPage = async ({searchParams}: PageProps ) => {
                         <Compass className="size-3.5 text-primary" />
                         <p>Busca de professores</p>
                     </div>
-                    <Suspense 
+                    <Suspense
                         fallback={<div className="space-y-4">
                             <div className="input h-10 animate-pulse rounded bg-gray-100">
                             </div>
@@ -32,8 +49,8 @@ const TutorsPage = async ({searchParams}: PageProps ) => {
                     </Suspense>
                     <Link href="/tutors/new" className="flex items-center justify-center gap-2">
                         <Button className="w-full mt-2">
-                                <Plus className="size-4" />
-                                <p className="text-sm font-medium text-white">Crie um novo professor</p>
+                            <Plus className="size-4" />
+                            <p className="text-sm font-medium text-white">Crie um novo professor</p>
                         </Button>
                     </Link>
                 </div>

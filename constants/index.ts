@@ -5,7 +5,7 @@ export const subjects = [
     { subject: "matemática", icon: Calculator, bg: "#FFF4E6", accent: "#E8913A" },
     { subject: "economia", icon: TrendingUp, bg: "#E8F4FD", accent: "#4A90D9" },
     { subject: "línguas", icon: Languages, bg: "#E6F9EE", accent: "#36B37E" },
-    { subject: "histária", icon: Landmark, bg: "#FDE8EE", accent: "#D94F7B" },
+    { subject: "história", icon: Landmark, bg: "#FDE8EE", accent: "#D94F7B" },
     { subject: "programação", icon: Code2, bg: "#F0E8FD", accent: "#8B5FD9" },
     { subject: "ciências", icon: Atom, bg: "#E6F5F5", accent: "#2AABB3" },
 ];
