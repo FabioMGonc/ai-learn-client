@@ -9,7 +9,7 @@ import TutorsCard from "@/components/general/TutorsCard";
 const TutorsPage = async ({searchParams}: PageProps ) => {
     const filters = await searchParams;
     const tutors = dummyTutors.filter((tutor) => {
-        if (filters.subject && filters.subject !== "Todos Assuntos") {
+        if (filters.subject && filters.subject !== "Todos ") {
             if (tutor.subject !== filters.subject) {
                 return false;
             }
