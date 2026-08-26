@@ -1,10 +1,87 @@
+import Title from "@/components/general/Title";
+import TutorList from "@/components/general/TutorList";
+import { dummyTutors, FAVORITE_TUTORS, RECENT_SESSIONS, USER_SESSIONS } from "@/constants";
+import { currentUser } from "@clerk/nextjs/server";
+import { BookOpen, GraduationCap, Heart, Icon } from "lucide-react";
+import Image from "next/image";
+import { redirect } from "next/navigation";
 
 
-const MyProgress = () => {
-    return(
-        <div>
-            <p>Page My progress</p>
-        </div>
+const MyProgress = async () => {
+    const user = await currentUser();
+    if (!user) redirect("/sign-in");
+
+    const tutors = dummyTutors;
+    const sessions = USER_SESSIONS;
+    const favorites = FAVORITE_TUTORS;
+    const recentSessions = RECENT_SESSIONS;
+
+    const stats = [
+        { label: "Sessões", value: sessions.length, icon: BookOpen },
+        { label: "Professores", value: tutors.length, icon: GraduationCap },
+        { label: "Favoritos", value: favorites.length, icon: Heart },
+    ];
+
+     const sections = [
+        {
+            key: "Favoritos",
+            data: favorites,
+            headingStart: "Professores",
+            headingEnd: "favoritos",
+            subtext: `${favorites.length} professor ${favorites.length === 1 ? "" : "s"} que voce salvou para aprender mais tarde.`,
+        },
+        {
+            key: "Recentes",
+            data: sessions,
+            headingStart: "Sessões",
+            headingEnd: "Recentes",
+            subtext: "Suas sessões recentes de aprendizado.",
+        },
+        {
+            key: "Professores",
+            data: tutors,
+            headingStart: "Meus",
+            headingEnd: "Professores",
+            subtext: `${tutors.length} professores ${tutors.length === 1 ? "" : "s"} que você criou, prontos ao seu lado onde quer que esteja aprendendo.`,
+        },
+    ];
+    
+    return (
+        <main className="page min-h-[90vh] grid gap-12 lg:grid-cols[280px_1fr] lg:items-start lg:gap-16">
+            <aside>
+                {/* Lado esquerdo */}
+                <div>
+                    <div className="">
+                        <Image loading="eager" src={user.imageUrl} alt={user.firstName || "User"} width={80} height={80} />
+                    </div>
+                    <h1 className="text-black">{user.firstName} {user.lastName}</h1>
+                    <p className=" text-black">
+                        Email: {user.emailAddresses?.[0]?.emailAddress ?? "Sem email"}
+                    </p>
+                </div>
+                <div className="grid grid-cols-3 gap-1 sm:gap-3">
+                    {stats.map(({ label, value, icon: Icon }) => (
+                        <div key={label} className="stat-card text-center px-2 py-4 sm:p-6 lg:px-3 lg:py-6">
+                            <div className="mx-auto mb-2 flex size-9 items-center justify-center rounded-lg bg-primary/10">
+                                <Icon className="size-8 text-primary" />
+                            </div>
+                            <p className="text-xl font-bold">{value}</p>
+                            <p className="text-[10px] font-semibold uppercase tracking-wider text-zinc-700">{label}</p>
+                        </div>
+                    ))}
+                </div>
+            </aside>
+
+            {/* Lado direito */}
+            <section className="min-w-0 space-y-10">
+                <div className="card lg:col-span-8">
+                    <Title headingStart="Sessões" headingEnd="recentes" subtext="Veja os suas ultimas conversas, para continuar aprendendo com seus professores." />
+                    <div className="mt-6">
+                        <TutorList tutors={recentSessions} />
+                    </div>
+                </div>
+            </section>
+        </main>
     );
 }
 

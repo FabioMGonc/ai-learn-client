@@ -2,6 +2,7 @@ import Link from "next/link";
 import NavItens from "./NavItens";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import { Show, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
 
 const Navbar = () => {
     return (
@@ -17,7 +18,15 @@ const Navbar = () => {
                 </div>
 
                 <div className="flex shrink-0 items-center justify-center gap-2 sm:gap-6">
-                    <Button className="default"> Entrar </Button>
+                    <Show when="signed-out">
+                        <SignUpButton mode="modal">
+                            <Button className="default"> Cadastrar / Entrar </Button>
+                        </SignUpButton>
+                       
+                    </Show>
+                        <Show when="signed-in">
+                            <UserButton appearance={{elements: {avatarBox: "size-8 sm-size-10"}}}></UserButton>
+                        </Show>
                 </div>
             </div>
 
