@@ -13,7 +13,7 @@ const NewTutor = () => {
                 <Title headingStart="Criar novo" headingEnd="professor" subtext="Crie um novo professor de voz com o seu nome, assunto e voz. Depois, você pode começar a aprender com ele!" />
 
                 <div className="relative w-full mt-6">
-                    <div className={!canCreate ? "select-none blur-[5px] pointer-events-none opacity-25" : ""}>
+                    <div className={canCreate ? "select-none blur-[5px] pointer-events-none opacity-25" : ""}>
                         <TutorForm />
                     </div>
                     {
