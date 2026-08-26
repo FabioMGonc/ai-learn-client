@@ -74,12 +74,16 @@ const MyProgress = async () => {
 
             {/* Lado direito */}
             <section className="min-w-0 space-y-10">
-                <div className="card lg:col-span-8">
-                    <Title headingStart="Sessões" headingEnd="recentes" subtext="Veja os suas ultimas conversas, para continuar aprendendo com seus professores." />
-                    <div className="mt-6">
-                        <TutorList tutors={recentSessions} />
-                    </div>
-                </div>
+                {
+                    sections.map(({ key, data, headingStart, headingEnd, subtext }) => (
+                        <div key={key} className="card">
+                            <Title headingStart={headingStart} headingEnd={headingEnd} subtext={subtext} />
+                            <div className="mt-6">
+                                <TutorList tutors={data} />
+                            </div>
+                        </div>)
+                    )
+                }
             </section>
         </main>
     );

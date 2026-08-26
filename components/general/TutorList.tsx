@@ -1,7 +1,6 @@
 import { ArrowRight, Clock, Inbox } from "lucide-react";
 import { getSubjectTheme } from "@/lib/utils";
-
-import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
 import Link from "next/link";
 import { Badge } from "../ui/badge";
 
