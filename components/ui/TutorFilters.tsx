@@ -5,7 +5,7 @@ import Title from "../general/Title";
 import { Search, X } from "lucide-react";
 import { Input } from "./input";
 import { Button } from "./button";
-import {  Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {  Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { subjects } from "@/constants";
 
 const TutorFilters = () => {

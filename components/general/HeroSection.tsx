@@ -34,7 +34,7 @@ const HeroSection = () => {
                 <div className="flex flex-wrap gap-5">
                     <Link href="/tutors">
                     <Button className="rounded-full p-6 sm:p-6 text-base font-semibold shadow-lg shadow-primary/20">
-                        Conheça Tutores<ArrowRight className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
+                        Conheça os professores <ArrowRight className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
                     </Button>
                     </Link>
 

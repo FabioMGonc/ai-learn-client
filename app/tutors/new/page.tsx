@@ -25,7 +25,7 @@ const NewTutor = () => {
                                     </div>
                                     <div className="space-y-2">
                                         <h2 className="text-base font-bold tracking-tight text-zinc-800">
-                                            Seu limite de criaçãofoi atingido
+                                            Seu limite de criação foi atingido
                                         </h2>
                                         <p className="text-xs leading-relaxed text-zinc-700">
                                             Você chegou ao limite de criação de novos professores. Para criar um novo professor, você precisa aumentar seu limite de criação.

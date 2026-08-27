@@ -47,12 +47,12 @@ const MyProgress = async () => {
     ];
     
     return (
-        <main className="page min-h-[90vh] grid gap-12 lg:grid-cols[280px_1fr] lg:items-start lg:gap-16">
-            <aside>
+        <main className="page min-h-[90vh] grid gap-12 lg:grid-cols-[400px_1fr] lg:items-start lg:gap-16">
+            <aside className="min-w-0 space-y-4 lg:sticky lg:top-6">
                 {/* Lado esquerdo */}
-                <div>
-                    <div className="">
-                        <Image loading="eager" src={user.imageUrl} alt={user.firstName || "User"} width={80} height={80} />
+                <div className="card flex flex-col items-center text-center">
+                    <div className="mx-auto mb-4 size-20 rounded-full bg-linear-to-br from-[#10A0F0] to-[#0040A0] p-0.75">
+                        <Image className="size-full rounded-full border-2 border-background object-cover" loading="eager" src={user.imageUrl} alt={user.firstName || "User"} width={80} height={80} />
                     </div>
                     <h1 className="text-black">{user.firstName} {user.lastName}</h1>
                     <p className=" text-black">
@@ -66,14 +66,14 @@ const MyProgress = async () => {
                                 <Icon className="size-8 text-primary" />
                             </div>
                             <p className="text-xl font-bold">{value}</p>
-                            <p className="text-[10px] font-semibold uppercase tracking-wider text-zinc-700">{label}</p>
+                            <p className="text-[10px] font-semibold uppercase tracking-wider text-zinc-00">{label}</p>
                         </div>
                     ))}
                 </div>
             </aside>
 
             {/* Lado direito */}
-            <section className="min-w-0 space-y-10">
+            <section className="min-w-0 mt-2.5 space-y-10">
                 {
                     sections.map(({ key, data, headingStart, headingEnd, subtext }) => (
                         <div key={key} className="card">
