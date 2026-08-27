@@ -52,6 +52,48 @@ export const getTutors = async ({ limit = 10, page = 1, subject, topic }: GetTut
         })
     }
     return tutors?.map((tutor): Tutor => ({...tutor, favorite: false})) || [];
-}
+};
 
+export const getTutorsById = async (id: string) => {
+    const supabase = supabaseClient();
+
+    const { data, error } = await supabase.from("tutors").select().eq("id", id).single();
+
+    if (error) {
+        throw new Error(
+            error?.message || "Não foi encontrado nenhum professor com esses parâmetros."
+        )
+    }
+
+    return data as Tutor;
+};
+
+export const logSessionActivity = async (tutorId: string) => {
+    const { userId } = await auth();
+    if (!userId) throw new Error("Usuário não autenticado");
+
+    const supabase = supabaseClient();
+
+    const { data, error } = await supabase.from("session_history").insert({
+        tutor_id: tutorId,
+        user_id: userId,
+    }).select().single();
+
+    if (error) throw new Error(error?.message)
+    
+    return data;
+};
+
+export const getRecentSessions = async (limit = 10): Promise<Tutor[]> => {
+    const { userId } = await auth();
+    if (!userId) throw new Error("Usuário não autenticado");
+    
+    const supabase = supabaseClient();
+
+    const { data, error } = await supabase.from("session_history").select(`tutors:tutors_id (*)`).order("created_at", {ascending: false}).limit(limit);
+
+    if (error) throw new Error(error?.message)
+    
+    return data?.map(({tutors}) => (Array.isArray(tutors) ? tutors[0] : tutors) as Tutor).filter(Boolean) || [];
+};
 

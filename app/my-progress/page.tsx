@@ -28,7 +28,7 @@ const MyProgress = async () => {
             data: favorites,
             headingStart: "Professores",
             headingEnd: "favoritos",
-            subtext: `${favorites.length} professor ${favorites.length === 1 ? "" : "s"} que voce salvou para aprender mais tarde.`,
+            subtext: `${favorites.length} professor ${favorites.length === 1 ? "" : "es"} que voce salvou para aprender mais tarde.`,
         },
         {
             key: "Recentes",
@@ -42,7 +42,7 @@ const MyProgress = async () => {
             data: tutors,
             headingStart: "Meus",
             headingEnd: "Professores",
-            subtext: `${tutors.length} professores ${tutors.length === 1 ? "" : "s"} que você criou, prontos ao seu lado onde quer que esteja aprendendo.`,
+            subtext: `${tutors.length} professore ${tutors.length === 1 ? "" : "s"} que você criou, prontos ao seu lado onde quer que esteja aprendendo.`,
         },
     ];
     
