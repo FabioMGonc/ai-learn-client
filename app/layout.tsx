@@ -27,7 +27,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased no-scrollbar`}
     >
       <body className="mt-6">
-        <ClerkProvider>
+        <ClerkProvider appearance={{ variables: { colorPrimary: "#1060F0" } }}>
           <Navbar />
           {children}
           <Foooter />
