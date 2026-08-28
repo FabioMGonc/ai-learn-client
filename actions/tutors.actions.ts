@@ -127,10 +127,12 @@ export const checkTutorCreationLimit = async () => {
 
     let limit = 0;
 
-    if (has({ plan: "academy" })) {
+    if (has({ plan: "academico" })) {
         return true;
-    } else if (has({ feature: "2_active_tutors" })) {
-        limit = 2;
+    } else if (has({ feature: "1_active_tutors" })) {
+        limit = 1;
+    } else if (has({ feature: "3_active_tutors" })) {
+        limit = 3;
     } else if (has({ feature: "5_active_tutors" })) {
         limit = 5;
     }
