@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
 import { ArrowRight, Clock3, Heart } from "lucide-react";
 import { Badge } from "../ui/badge";
+import { addFavorite, removeFavorite } from "@/actions/tutors.actions";
 
 
 const TutorsCard = ({ id, name, topic, subject, duration, favorited=false }: TutorCardProps) => {
@@ -13,7 +14,12 @@ const TutorsCard = ({ id, name, topic, subject, duration, favorited=false }: Tut
     const safeSubject = subject || "General";
     const { Icon, bg, accent } = getSubjectTheme(subject);
 
-    const toogleFavorite = () => { }
+    const toogleFavorite = (e: React.MouseEvent) => { 
+        e.preventDefault();
+        e.stopPropagation();
+        console.log("Favoritou");
+        favorited ? removeFavorite(id, pathname) : addFavorite(id, pathname);
+     }
 
     return (
         <Link className="group block h-full" href={`/tutors/${id}`}>
@@ -25,7 +31,7 @@ const TutorsCard = ({ id, name, topic, subject, duration, favorited=false }: Tut
                         </div>
                     </div>
                     <Button variant="ghost" size="icon" onClick={toogleFavorite} className="absolute right-2 top-2 size-7 rounded-full bg-card">
-                        <Heart className={`size-4 ${favorited ? "text-white fill-current" : "text-muted-foreground"}`} />
+                        <Heart className={`size-4 ${favorited ? "text-blue-500 fill-blue-500" : "text-muted-foreground"}`} />
                     </Button>
                 </div>
                 <div className="mt-4 flex flex-1 flex-col">

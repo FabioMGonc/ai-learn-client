@@ -9,6 +9,8 @@ import { Textarea } from "../ui/textarea";
 import { Sparkles } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { subjects } from "@/constants";
+import { createTutor } from "@/actions/tutors.actions";
+import { useRouter } from "next/navigation";
 
 
 const formSchema = z.object({
@@ -17,13 +19,12 @@ const formSchema = z.object({
     topic: z.string().min(2, "O tópico do professor é obrigatório"),
     voice: z.string().min(2, "O vídeo do professor é obrigatório"),
     style: z.string().min(2, "O estilo do professor é obrigatório"),
-    description: z.string().min(2, "A descrição do professor é obrigatória"),
     duration: z.number().min(2, "O tempo de duração do professor é obrigatório"),
 })
 
 
 const TutorForm = () => {
-
+    const router = useRouter();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -32,19 +33,22 @@ const TutorForm = () => {
             topic: "",
             voice: "",
             style: "",
-            description: "",
             duration: 15,
         },
     })
-
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        console.log(data);
-    }
+        const tutor = await createTutor(data);
+
+        if (!tutor?.id) {
+            throw new Error("Tutor criado sem ID");
+        }
+
+        router.push(`/tutors/${tutor.id}`);
+    };
 
     return (
-       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 p-6 sm:p-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 p-6 sm:p-8">
             <FieldGroup className="space-y-5">
-
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <Controller
                         name="name"

@@ -1,11 +1,19 @@
+import { checkTutorCreationLimit } from "@/actions/tutors.actions";
 import Title from "@/components/general/Title";
 import TutorForm from "@/components/general/TutorForm";
 import { Button } from "@/components/ui/button";
+import { auth } from "@clerk/nextjs/server";
 import { ArrowRight, Lock } from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-const NewTutor = () => {
-    const canCreate = false;
+const NewTutor = async () => {
+    const { userId } = await auth();
+    if (!userId) redirect("/login");
+
+    const canCreate = await checkTutorCreationLimit();
+    
+
     return (
         <div className="page min-h-[90vh]  max-w-3xl">
             <div className="card relative overflow-hidden shadow-none pt-12">
@@ -13,11 +21,11 @@ const NewTutor = () => {
                 <Title headingStart="Criar novo" headingEnd="professor" subtext="Crie um novo professor de voz com o seu nome, assunto e voz. Depois, você pode começar a aprender com ele!" />
 
                 <div className="relative w-full mt-6">
-                    <div className={canCreate ? "select-none blur-[5px] pointer-events-none opacity-25" : ""}>
+                    <div className={!canCreate ? "select-none blur-[5px] pointer-events-none opacity-25" : ""}>
                         <TutorForm />
                     </div>
                     {
-                        canCreate && (
+                        !canCreate && (
                             <div className="absolute inset-0 flex items-center justify-center z-30 bg-background/80 backdrop-blur-[2px] p-6">
                                 <div className="w-full max-w-sm card text-center border-border">
                                     <div className="mx-auto mb-4size-14 flex items-center justify-center rounded-2xl bg-amber-500/10 text-blue-300">

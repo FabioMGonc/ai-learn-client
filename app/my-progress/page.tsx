@@ -1,6 +1,6 @@
+import { getFavoriteTutors, getRecentSessions, getTutors, getUserSessions } from "@/actions/tutors.actions";
 import Title from "@/components/general/Title";
 import TutorList from "@/components/general/TutorList";
-import { dummyTutors, FAVORITE_TUTORS, RECENT_SESSIONS, USER_SESSIONS } from "@/constants";
 import { currentUser } from "@clerk/nextjs/server";
 import { BookOpen, GraduationCap, Heart, Icon } from "lucide-react";
 import Image from "next/image";
@@ -11,10 +11,10 @@ const MyProgress = async () => {
     const user = await currentUser();
     if (!user) redirect("/sign-in");
 
-    const tutors = dummyTutors;
-    const sessions = USER_SESSIONS;
-    const favorites = FAVORITE_TUTORS;
-    const recentSessions = RECENT_SESSIONS;
+    const tutors = await getTutors({ limit: 3 });
+    const sessions = await getUserSessions(user.id);
+    const favorites = await getFavoriteTutors(user.id);
+    const recentSessions = await getRecentSessions();
 
     const stats = [
         { label: "Sessões", value: sessions.length, icon: BookOpen },
@@ -54,8 +54,8 @@ const MyProgress = async () => {
                     <div className="mx-auto mb-4 size-20 rounded-full bg-linear-to-br from-[#10A0F0] to-[#0040A0] p-0.75">
                         <Image className="size-full rounded-full border-2 border-background object-cover" loading="eager" src={user.imageUrl} alt={user.firstName || "User"} width={80} height={80} />
                     </div>
-                    <h1 className="text-black">{user.firstName} {user.lastName}</h1>
-                    <p className=" text-black">
+                    <h1 className="text-lg font-bold text-zinc-800">{user.firstName} {user.lastName}</h1>
+                    <p className="mt-1 text-xs font-medium text-zinc-700">
                         Email: {user.emailAddresses?.[0]?.emailAddress ?? "Sem email"}
                     </p>
                 </div>
@@ -65,8 +65,8 @@ const MyProgress = async () => {
                             <div className="mx-auto mb-2 flex size-9 items-center justify-center rounded-lg bg-primary/10">
                                 <Icon className="size-8 text-primary" />
                             </div>
-                            <p className="text-xl font-bold">{value}</p>
-                            <p className="text-[10px] font-semibold uppercase tracking-wider text-zinc-00">{label}</p>
+                            <p className="text-xl font-bold text-zinc-700">{value}</p>
+                            <p className="text-[10px] font-semibold uppercase tracking-wider text-zinc-700">{label}</p>
                         </div>
                     ))}
                 </div>

@@ -86,7 +86,7 @@ const TutorFilters = () => {
                         <SelectValue placeholder="Todos os assuntos" />
                     </SelectTrigger>
                     <SelectContent className={"border-border shadow-none"}>
-                        <SelectItem value={"Todos Assuntos"} className={"bg-blue-300 text-zinc-700 capitalize cursor-pointer"}>
+                        <SelectItem value={"all"} className={"bg-blue-300 text-zinc-700 capitalize cursor-pointer"}>
                             <p>Todos os assuntos</p>
                         </SelectItem>
                         <SelectGroup className="bg-blue-300">

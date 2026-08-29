@@ -47,14 +47,14 @@ export const getTutors = async ({ limit = 10, page = 1, subject, topic }: GetTut
         return tutors.map(tutor => {
             return {
                 ...tutor,
-                favorite: favoriteIds.has(tutor.id)
+                favorited: favoriteIds.has(tutor.id)
             }
         })
     }
     return tutors?.map((tutor): Tutor => ({ ...tutor, favorite: false })) || [];
 };
 
-export const getTutorsById = async (id: string) => {
+export const getTutorById = async (id: string) => {
     const supabase = supabaseClient();
 
     const { data, error } = await supabase.from("tutors").select().eq("id", id).single();
@@ -85,9 +85,10 @@ export const logSessionActivity = async (tutorId: string) => {
 };
 
 export const getRecentSessions = async (limit = 10): Promise<Tutor[]> => {
+    const { userId } = await auth();
     const supabase = supabaseClient();
 
-    const { data, error } = await supabase.from("session_history").select(`tutors:tutors_id (*)`).order("created_at", { ascending: false }).limit(limit);
+    const { data, error } = await supabase.from("session_history").select(`tutors:tutor_id (*)`).eq("user_id", userId).order("created_at", { ascending: false }).limit(limit);
 
     if (error) throw new Error(error?.message)
 
@@ -100,7 +101,7 @@ export const getUserSessions = async (userId: string, limit = 10): Promise<Tutor
 
     const supabase = supabaseClient();
 
-    const { data, error } = await supabase.from("session_history").select(`tutors:tutors_id (*)`).eq("user_id", userId).order("created_at", { ascending: false }).limit(limit);
+    const { data, error } = await supabase.from("session_history").select(`tutors:tutor_id (*)`).eq("user_id", userId).order("created_at", { ascending: false }).limit(limit);
 
     if (error) throw new Error(error?.message)
 
@@ -129,10 +130,8 @@ export const checkTutorCreationLimit = async () => {
 
     if (has({ plan: "academico" })) {
         return true;
-    } else if (has({ feature: "1_active_tutors" })) {
-        limit = 1;
-    } else if (has({ feature: "3_active_tutors" })) {
-        limit = 3;
+    } else if (has({ feature: "2_active_tutors" })) {
+        limit = 2;
     } else if (has({ feature: "5_active_tutors" })) {
         limit = 5;
     }
@@ -178,10 +177,10 @@ export const removeFavorite = async (tutorId: string, path: string) => {
     return data;
 };
 
-export const getFavotiteTutors = async (userId: string): Promise<Tutor[]> => {
+export const getFavoriteTutors = async (userId: string): Promise<Tutor[]> => {
     const supabase = supabaseClient();
 
-    const { data, error } = await supabase.from("favorites").select(`tutors:tutors_id (*)`).eq("user_id", userId);
+    const { data, error } = await supabase.from("favorites").select(`tutors:tutor_id (*)`).eq("user_id", userId);
 
     if (error) throw new Error(error.message);
 

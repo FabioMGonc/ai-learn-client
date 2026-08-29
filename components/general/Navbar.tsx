@@ -2,7 +2,7 @@ import Link from "next/link";
 import NavItens from "./NavItens";
 import Image from "next/image";
 import { Button } from "../ui/button";
-import { Show, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
+import { Show, SignUpButton, UserButton } from '@clerk/nextjs'
 
 const Navbar = () => {
     return (

@@ -1,10 +1,10 @@
+import { getRecentSessions, getTutors } from "@/actions/tutors.actions";
 import Title from "./Title";
 import TutorList from "./TutorList";
-import { dummyTutors, RECENT_SESSIONS } from "@/constants";
 
-const RecentSection = () => {
-    const tutors = dummyTutors.slice(3);
-    const recentSeason = RECENT_SESSIONS;
+const RecentSection = async () => {
+    const tutors = await getTutors({ limit: 3 });
+    // const recentSessions = await getRecentSessions();
     
     return (
         <section className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

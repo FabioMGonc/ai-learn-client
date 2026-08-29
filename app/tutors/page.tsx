@@ -1,29 +1,18 @@
-import { dummyTutors } from "@/constants";
+
 import { Compass, Inbox, Plus, Waves } from "lucide-react";
 import { Suspense } from "react";
 import TutorFilters from "../../components/ui/TutorFilters";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import TutorsCard from "@/components/general/TutorsCard";
+import { getTutors } from "@/actions/tutors.actions";
 
 const TutorsPage = async ({searchParams}: PageProps ) => {
     const filters = await searchParams;
-    const tutors = dummyTutors.filter((tutor) => {
-        if (filters.subject && filters.subject !== "Todos ") {
-            if (tutor.subject !== filters.subject) {
-                return false;
-            }
-        }
-        if (filters.topic) {
-            const query = filters.topic.toLowerCase();
-            const matchName = tutor.name.toLowerCase().includes(query);
-            const matchTopic = tutor.topic.toLowerCase().includes(query);
-
-            if (!matchName && !matchTopic) {
-                return false;
-            }
-        }
-        return true;
+    const tutors = await getTutors({ 
+        limit: 3, 
+        subject: filters.subject === "all" ? undefined : filters.subject,
+        topic: filters.topic || undefined,
     });
 
     const hasTutors = tutors.length > 0;
