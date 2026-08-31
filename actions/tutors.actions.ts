@@ -19,8 +19,6 @@ export const createTutor = async (tutorData: CreateTutorDto) => {
 
 export const getTutors = async ({ limit = 10, page = 1, subject, topic }: GetTutorsParams) => {
     const { userId } = await auth()
-    if (!userId) throw new Error("Usuario nao autenticado!");
-
     const supabase = supabaseClient();
 
     let query = supabase.from("tutors").select();
@@ -70,7 +68,7 @@ export const getTutorById = async (id: string) => {
 
 export const logSessionActivity = async (tutorId: string) => {
     const { userId } = await auth();
-    if (!userId) throw new Error("Usuário não autenticado");
+
 
     const supabase = supabaseClient();
 
@@ -96,9 +94,6 @@ export const getRecentSessions = async (limit = 10): Promise<Tutor[]> => {
 };
 
 export const getUserSessions = async (userId: string, limit = 10): Promise<Tutor[]> => {
-
-    if (!userId) throw new Error("Usuário não autenticado");
-
     const supabase = supabaseClient();
 
     const { data, error } = await supabase.from("session_history").select(`tutors:tutor_id (*)`).eq("user_id", userId).order("created_at", { ascending: false }).limit(limit);
@@ -109,7 +104,6 @@ export const getUserSessions = async (userId: string, limit = 10): Promise<Tutor
 };
 
 export const getUserTutors = async (userId: string) => {
-    if (!userId) throw new Error("Usuário não identificado!");
 
     const supabase = supabaseClient();
 
@@ -147,8 +141,6 @@ export const checkTutorCreationLimit = async () => {
 
 export const addFavorite = async (tutorId: string, path: string) => { 
     const { userId } = await auth();
-    if (!userId) throw new Error("Usuário não autenticado!");
-
     const supabase = supabaseClient();
 
     const { data, error } = await supabase.from("favorites").insert({ tutor_id: tutorId, user_id: userId }).select();
