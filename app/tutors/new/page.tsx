@@ -9,7 +9,7 @@ import { redirect } from "next/navigation";
 
 const NewTutor = async () => {
     const { userId } = await auth();
-    if (!userId) redirect("/login");
+    if (!userId) redirect("/sign-in");
 
     const canCreate = await checkTutorCreationLimit();
     
