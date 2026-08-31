@@ -27,22 +27,18 @@ export const configureAssistant = (voice: string, style: string) => {
     firstMessage:
       "Olá, vamos começar a aula. Hoje vamos discutir sobre {{topic}}.",
     transcriber: {
-      provider: "deepgram",
-      model: "nova-3",
-      language: "pt-BR",
+      provider: "soniox",
+      model: "stt-rt-v5",
+      language: "en",
     },
+
     voice: {
-      provider: "11labs",
-      voiceId: voiceId,
-      stability: 0.4,
-      similarityBoost: 0.8,
-      speed: 1,
-      style: 0.5,
-      useSpeakerBoost: true,
+      provider: "vapi",
+      voiceId: "Elliot",
     },
     model: {
       provider: "openai",
-      model: "gpt-4",
+      model: "gpt-4.1",
       messages: [
         {
           role: "system",
@@ -61,8 +57,6 @@ export const configureAssistant = (voice: string, style: string) => {
         },
       ],
     },
-    clientMessages: [] as any,
-    serverMessages: [] as any,
   };
   return vapiAssistant;
 };

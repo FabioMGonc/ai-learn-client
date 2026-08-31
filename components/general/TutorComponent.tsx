@@ -1,9 +1,11 @@
 "use client"
-import { getSubjectTheme } from "@/lib/utils";
+import { configureAssistant, getSubjectTheme } from "@/lib/utils";
 import Image from "next/image";
 import { Icon, Loader2, MessageSquare, Mic, MicOff, Phone, PhoneOff, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
+import { logSessionActivity } from "@/actions/tutors.actions";
+import { vapi } from "@/lib/vapi.sdk";
 
 interface TutorProps extends Pick<Tutor, "id" | "name" | "topic" | "subject" | "duration"> {
     tutorId: string;
@@ -22,19 +24,74 @@ const TutorComponent = ({ tutorId, subject, topic, name, userName, userImage, st
     const { Icon, accent: { "bg-primary": bgPrimary, } } = getSubjectTheme(subject)
 
     useEffect(() => {
+
         const handleStart = async () => {
+            setIsConnected(true);
+            setIsLoading(false);
+            try {
+                await logSessionActivity(tutorId);
+            } catch (error) {
+                console.log("Falha ao conectar à sessão: ",error);
+            }
         }
         const handleEnd = () => {
+            console.log("Call ended");
+            setIsConnected(false);
+            setIsLoading(false);
+            setIsMuted(false);
         }
-
+        
         const handleMessage = (msg: any) => {
+            if (msg.type === "transcript" && msg.transcriptType === "final") {
+                setMessages((prev) => [{ role: msg.role, content: msg.transcript }, ...prev]);
+            }
+        }
+        const handleError = (error: any) => {
+            console.log("VAPI ERROR:", error);
+            console.log("VAPI daily:", error?.error);
+            console.log("Daily message:", error?.error?.message);
+        };
+    
+        vapi.on("error", handleError);
+    
+        vapi.on("call-start", handleStart);
+        vapi.on("call-end", handleEnd);
+        vapi.on("message", handleMessage);
+        
+        return () => {
+            vapi.off("call-start", handleStart);
+            vapi.off("call-end", handleEnd);
+            vapi.off("message", handleMessage);
+            vapi.off("error", handleError);
         }
     }, [tutorId])
 
     const handleToggleMute = () => {
+        if(!isConnected) return;
+
+        vapi.setMuted(!isMuted);
+        setIsMuted(!isMuted);
     }
 
-    const handleConnection = () => {
+    const handleConnection = async () => {
+        console.log("START BUTTON", {
+            isConnected,
+            tutorId,
+            voice,
+            style,
+            subject,
+            topic,
+        });
+        if(isConnected) {
+            setIsLoading(true);
+            vapi.stop()
+        } else {
+            setIsLoading(true);
+
+            await vapi.start(configureAssistant(voice, style), {
+                variableValues: { subject, topic, style },
+            } ) 
+        }     
     }
 
     return (
@@ -65,7 +122,7 @@ const TutorComponent = ({ tutorId, subject, topic, name, userName, userImage, st
             <div className="grid grid-cols-2 gap-4">
                 <Button
                     onClick={handleToggleMute}
-                    disabled={isConnected}
+                    disabled={!isConnected}
                     variant="outline"
                     size="lg"
                     className="rounded-xl bg-blue-300 text-black">
@@ -83,7 +140,7 @@ const TutorComponent = ({ tutorId, subject, topic, name, userName, userImage, st
                         isLoading ? <Loader2 className="size-4 animate-spin" /> : isConnected ? <PhoneOff className="size-4" /> : <Phone className="size-4" />
                     }
                     {
-                        isLoading ? "Connecting..." : isConnected ? "Encerrar" : "Conectar"
+                        isLoading ? "Connectando..." : isConnected ? "Encerrar" : "Conectar"
                     }
                 </Button>
             </div>
@@ -100,7 +157,7 @@ const TutorComponent = ({ tutorId, subject, topic, name, userName, userImage, st
                             messages.map((msg, idx) => {
                                 const isTutor = msg.role === "assistant"
                                 return (
-                                    <div key={idx} className={`max-w[85%] rounded-xl p-3 text-sm border ${isTutor ? "bg-muted text-zinc-100/95 border-border" : "bg-primary text-white border-transparent"}`}>
+                                    <div key={idx} className={`max-w-[85%] rounded-xl p-3 text-sm border ${isTutor ? "bg-muted text-zinc-100/95 border-border" : "bg-primary text-white border-transparent"}`}>
                                         <span>
                                             { 
                                                 isTutor ? name.split(" ")[0] : userName
