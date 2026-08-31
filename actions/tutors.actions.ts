@@ -120,7 +120,7 @@ export const checkTutorCreationLimit = async () => {
 
     const supabase = supabaseClient();
 
-    let limit = 0;
+    let limit = 2;
 
     if (has({ plan: "academico" })) {
         return true;
